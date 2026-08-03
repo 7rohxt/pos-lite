@@ -1,6 +1,8 @@
 from decimal import Decimal
 
-from sqlalchemy import select
+from datetime import datetime, timezone
+
+from sqlalchemy import select, func   
 from sqlalchemy.orm import Session
 
 from app.models.product import Product
@@ -57,3 +59,13 @@ def list_all_sales(db: Session) -> list[Sale]:
 def delete_sale(db: Session, sale: Sale) -> None:
     db.delete(sale)
     db.commit()
+
+def sales_report_today(db: Session) -> dict:
+    start = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+    count, total = db.execute(
+        select(
+            func.count(Sale.id),
+            func.coalesce(func.sum(Sale.total), 0),   # 0 instead of NULL when no sales
+        ).where(Sale.created_at >= start)
+    ).one()
+    return {"date": start.date(), "sales_count": count, "total_revenue": total}
