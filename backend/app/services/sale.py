@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 from app.models.product import Product
 from app.models.sale import Sale, SaleItem
 from app.schemas.sale import SaleItemCreate
+from app.core.exceptions import NotFoundError, ConflictError
 
 
 def create_sale(db: Session, cashier_id: int, items: list[SaleItemCreate]) -> Sale:
@@ -17,9 +18,9 @@ def create_sale(db: Session, cashier_id: int, items: list[SaleItemCreate]) -> Sa
     for item in items:
         product = db.get(Product, item.product_id)
         if product is None:
-            raise ValueError(f"Product {item.product_id} not found")
+            raise NotFoundError(f"Product {item.product_id} not found")
         if product.stock < item.quantity:
-            raise ValueError(
+            raise ConflictError(
                 f"Not enough stock for '{product.name}': "
                 f"have {product.stock}, requested {item.quantity}"
             )
