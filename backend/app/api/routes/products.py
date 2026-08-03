@@ -1,11 +1,16 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
+from app.api.deps import get_current_user
 from app.db.database import get_db
 from app.schemas.product import ProductCreate, ProductUpdate, ProductOut
 from app.services import product as product_service
 
-router = APIRouter(prefix="/products", tags=["products"])
+router = APIRouter(
+    prefix="/products",
+    tags=["products"],
+    dependencies=[Depends(get_current_user)],   # every product route now needs a token
+)
 
 
 @router.get("", response_model=list[ProductOut])
