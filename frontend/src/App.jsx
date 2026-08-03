@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Login from './Login'
+import ProductList from './ProductList'
 import { getToken, clearToken } from './api'
 
 function App() {
@@ -12,10 +13,8 @@ function App() {
   return (
     <div>
       <h1>POS-Lite</h1>
-      <p>You're logged in. 🎉</p>
-      <button onClick={() => { clearToken(); setLoggedIn(false) }}>
-        Log out
-      </button>
+      <button onClick={() => { clearToken(); setLoggedIn(false) }}>Log out</button>
+      <ProductList />
     </div>
   )
 }
