@@ -14,8 +14,8 @@ router = APIRouter(
 
 
 @router.get("", response_model=list[ProductOut])
-def list_products(db: Session = Depends(get_db)):
-    return product_service.list_products(db)
+def list_products(search: str | None = None, db: Session = Depends(get_db)):
+    return product_service.list_products(db, search=search)
 
 
 @router.post("", response_model=ProductOut, status_code=201)

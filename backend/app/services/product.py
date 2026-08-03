@@ -5,8 +5,11 @@ from app.models.product import Product
 from app.schemas.product import ProductCreate, ProductUpdate
 
 
-def list_products(db: Session) -> list[Product]:
-    return list(db.scalars(select(Product)).all())
+def list_products(db: Session, search: str | None = None) -> list[Product]:
+    query = select(Product)
+    if search:
+        query = query.where(Product.name.ilike(f"%{search}%"))
+    return list(db.scalars(query))
 
 
 def get_product(db: Session, product_id: int) -> Product | None:
@@ -33,3 +36,7 @@ def update_product(db: Session, product: Product, payload: ProductUpdate) -> Pro
 def delete_product(db: Session, product: Product) -> None:
     db.delete(product)
     db.commit()
+
+
+def low_stock_products(db: Session, threshold: int) -> list[Product]:
+    return list(db.scalars(select(Product).where(Product.stock <= threshold)))
