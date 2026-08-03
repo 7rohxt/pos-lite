@@ -12,4 +12,4 @@ class User(Base):
     hashed_password: Mapped[str] = mapped_column(String)
     is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
 
-    sales: Mapped[list["Sale"]] = relationship(back_populates="cashier")
+    sales: Mapped[list["Sale"]] = relationship(back_populates="cashier") # type: ignore

@@ -17,7 +17,7 @@ class Sale(Base):
     total: Mapped[Decimal] = mapped_column(Numeric(10, 2), default=0)
 
     cashier_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    cashier: Mapped["User"] = relationship(back_populates="sales")
+    cashier: Mapped["User"] = relationship(back_populates="sales") # type: ignore
 
     items: Mapped[list["SaleItem"]] = relationship(
         back_populates="sale", cascade="all, delete-orphan"
@@ -35,4 +35,4 @@ class SaleItem(Base):
     sale: Mapped["Sale"] = relationship(back_populates="items")
 
     product_id: Mapped[int] = mapped_column(ForeignKey("products.id"))
-    product: Mapped["Product"] = relationship(back_populates="sale_items")
+    product: Mapped["Product"] = relationship(back_populates="sale_items") # type: ignore

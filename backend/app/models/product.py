@@ -14,4 +14,4 @@ class Product(Base):
     price: Mapped[Decimal] = mapped_column(Numeric(10, 2))   # money → Numeric, not Float
     stock: Mapped[int] = mapped_column(Integer, default=0)
 
-    sale_items: Mapped[list["SaleItem"]] = relationship(back_populates="product")
+    sale_items: Mapped[list["SaleItem"]] = relationship(back_populates="product") # type: ignore 
