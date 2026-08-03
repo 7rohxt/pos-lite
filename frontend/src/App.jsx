@@ -1,14 +1,20 @@
 import { useState } from 'react'
+import Login from './Login'
+import { getToken, clearToken } from './api'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [loggedIn, setLoggedIn] = useState(Boolean(getToken()))
+
+  if (!loggedIn) {
+    return <Login onLogin={() => setLoggedIn(true)} />
+  }
 
   return (
     <div>
       <h1>POS-Lite</h1>
-      <p>Point of sale — coming together.</p>
-      <button onClick={() => setCount(count + 1)}>
-        Clicked {count} times
+      <p>You're logged in. 🎉</p>
+      <button onClick={() => { clearToken(); setLoggedIn(false) }}>
+        Log out
       </button>
     </div>
   )
