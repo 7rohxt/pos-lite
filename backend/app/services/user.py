@@ -29,3 +29,6 @@ def authenticate_user(db: Session, username: str, password: str) -> User | None:
     if not verify_password(password, user.hashed_password):
         return None
     return user
+
+def list_users(db: Session) -> list[User]:
+    return list(db.scalars(select(User)))

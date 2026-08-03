@@ -46,3 +46,14 @@ def list_sales_for_cashier(db: Session, cashier_id: int) -> list[Sale]:
 
 def get_sale(db: Session, sale_id: int) -> Sale | None:
     return db.get(Sale, sale_id)
+
+
+# Admin Fucntions
+
+def list_all_sales(db: Session) -> list[Sale]:
+    return list(db.scalars(select(Sale)))
+
+
+def delete_sale(db: Session, sale: Sale) -> None:
+    db.delete(sale)
+    db.commit()
