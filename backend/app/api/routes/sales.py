@@ -13,10 +13,7 @@ router = APIRouter(prefix="/sales", tags=["sales"])
 @router.post("", response_model=SaleOut, status_code=201)
 def create_sale(payload: SaleCreate, db: Session = Depends(get_db),
                 current_user: User = Depends(get_current_user)):
-    try:
-        return sale_service.create_sale(db, cashier_id=current_user.id, items=payload.items)
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    return sale_service.create_sale(db, cashier_id=current_user.id, items=payload.items)
 
 
 @router.get("", response_model=list[SaleOut])
