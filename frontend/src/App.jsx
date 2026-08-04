@@ -16,10 +16,15 @@ function App() {
   if (!loggedIn) return <Login onLogin={() => setLoggedIn(true)} />
 
   return (
-    <div>
-      <h1>POS-Lite</h1>
-      {user && <p>Logged in as {user.username}{user.is_admin ? ' (admin)' : ''}</p>}
-      <button onClick={() => { clearToken(); setLoggedIn(false) }}>Log out</button>
+    <div className="app">
+      <header className="app-header">
+        <img className="logo" src="/logo.png" alt="" onError={(e) => (e.currentTarget.style.display = 'none')} />
+        <h1>POS-Lite</h1>
+        <span className="spacer" />
+        {user && <span className="who">{user.username}{user.is_admin ? ' · admin' : ''}</span>}
+        <button className="btn" onClick={() => { clearToken(); setLoggedIn(false) }}>Log out</button>
+      </header>
+
       <NewSale />
       {user?.is_admin && <AdminPanel />}
     </div>

@@ -7,35 +7,29 @@ function Login({ onLogin }) {
   const [error, setError] = useState('')
 
   async function handleSubmit(e) {
-    e.preventDefault()          // stop the browser from reloading the page
+    e.preventDefault()
     setError('')
     try {
       await login(username, password)
-      onLogin()                 // tell the parent (App) we're now logged in
+      onLogin()
     } catch (err) {
-      setError(err.message)     // show "Incorrect username or password"
+      setError(err.message)
     }
   }
 
   return (
-    <div>
-      <h1>POS-Lite — Login</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Log in</button>
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div className="login-wrap">
+      <div className="login-card">
+        <h1>POS-Lite</h1>
+        <form onSubmit={handleSubmit}>
+          <input className="field" type="text" placeholder="Username"
+                 value={username} onChange={(e) => setUsername(e.target.value)} />
+          <input className="field" type="password" placeholder="Password"
+                 value={password} onChange={(e) => setPassword(e.target.value)} />
+          <button className="btn btn-primary" type="submit" style={{ width: '100%' }}>Log in</button>
+        </form>
+        {error && <p className="msg-error">{error}</p>}
+      </div>
     </div>
   )
 }
