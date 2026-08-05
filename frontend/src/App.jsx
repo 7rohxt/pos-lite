@@ -3,6 +3,7 @@ import Login from './Login'
 import NewSale from './NewSale'
 import AdminPanel from './AdminPanel'
 import { apiFetch, getToken, clearToken } from './api'
+import ProductManager from './ProductManager'
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(Boolean(getToken()))
@@ -26,6 +27,7 @@ function App() {
       </header>
 
       <NewSale />
+      {user?.is_admin && <ProductManager />}
       {user?.is_admin && <AdminPanel />}
     </div>
   )

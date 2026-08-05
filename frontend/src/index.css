@@ -144,3 +144,7 @@ input { font: inherit; }
 .plain-list li { padding: 8px 0; border-bottom: 1px solid var(--line); }
 .plain-list li:last-child { border-bottom: none; }
 .muted { color: var(--muted); }
+
+.product-form { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
+.product-form .field { margin-bottom: 0; flex: 1; min-width: 120px; }
+.manage-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
