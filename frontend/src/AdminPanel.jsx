@@ -17,27 +17,30 @@ function AdminPanel() {
       .catch((e) => setError(e.message))
   }, [])
 
-  if (error) return <p style={{ color: 'red' }}>Admin: {error}</p>
-
   return (
-    <div>
+    <div className="card">
       <h2>Admin</h2>
+      {error && <p className="msg-error">{error}</p>}
 
-      {report && <p>Today: {report.sales_count} sales, total ${report.total_revenue}</p>}
+      {report && (
+        <div className="stat-row">
+          <div className="stat"><div className="num">{report.sales_count}</div><div className="label">Sales today</div></div>
+          <div className="stat"><div className="num">${report.total_revenue}</div><div className="label">Revenue today</div></div>
+          <div className="stat"><div className="num">{lowStock.length}</div><div className="label">Low-stock items</div></div>
+        </div>
+      )}
 
-      <h3>Low stock (≤ 5)</h3>
-      {lowStock.length === 0
-        ? <p>None.</p>
-        : <ul>{lowStock.map((p) => <li key={p.id}>{p.name} — {p.stock} left</li>)}</ul>}
+      <h3 style={{ marginTop: 20 }}>Low stock (≤ 5)</h3>
+      {lowStock.length === 0 ? <p className="muted">None.</p> : (
+        <ul className="plain-list">{lowStock.map((p) => <li key={p.id}>{p.name} — {p.stock} left</li>)}</ul>
+      )}
 
-      <h3>All sales</h3>
-      {sales.length === 0
-        ? <p>No sales yet.</p>
-        : <ul>{sales.map((s) => (
-            <li key={s.id}>
-              Sale #{s.id} — ${s.total} — cashier {s.cashier_id} — {s.items.length} item(s)
-            </li>
-          ))}</ul>}
+      <h3 style={{ marginTop: 20 }}>All sales</h3>
+      {sales.length === 0 ? <p className="muted">No sales yet.</p> : (
+        <ul className="plain-list">
+          {sales.map((s) => <li key={s.id}>Sale #{s.id} — ${s.total} — cashier {s.cashier_id} — {s.items.length} item(s)</li>)}
+        </ul>
+      )}
     </div>
   )
 }
